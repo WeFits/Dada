@@ -3,25 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>360-Day Progressive Challenge</title>
+<title>360-Day Progressive Challenge — Warm Theme</title>
 
 <style>
 :root{
-  --bg1:#050814;
-  --bg2:#0b1630;
-  --card:#0e1b3a;
-  --primary:#8b5cf6;
-  --secondary:#22d3ee;
-  --good:#34d399;
-  --text:#e5edff;
-  --muted:#9aa4c7;
+  /* → change these to try other palettes quickly */
+  --bg1:#0b0710;       /* deep charcoal */
+  --bg2:#2b1014;       /* deep maroon */
+  --card:#1a1120;
+  --primary:#ff6b6b;   /* coral (main accent) */
+  --secondary:#ffb86b; /* peach (accent) */
+  --good:#34d399;      /* success/positive */
+  --text:#f3eef6;
+  --muted:#cfc7d6;
 }
 *{box-sizing:border-box}
 
 body{
   margin:0;
   min-height:100vh;
-  font-family:system-ui,Segoe UI,Roboto,Arial;
+  font-family:system-ui,Segoe UI,Roboto,Inter,Arial;
   background:radial-gradient(1200px 600px at top,var(--bg2),var(--bg1));
   color:var(--text);
   display:flex;
@@ -39,11 +40,11 @@ body{
 }
 
 .card{
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
   border-radius:22px;
   padding:22px;
   box-shadow:0 20px 50px rgba(0,0,0,.55);
-  border:1px solid rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.04);
 }
 
 /* LEFT */
@@ -52,7 +53,8 @@ body{
   height:220px;
   border-radius:50%;
   margin:auto;
-  background:conic-gradient(var(--primary) var(--deg), rgba(255,255,255,.08) 0deg);
+  /* conic uses the warm accents now */
+  background:conic-gradient(var(--primary) var(--deg), rgba(255,255,255,.06) 0deg);
   display:grid;
   place-items:center;
   position:relative;
@@ -62,7 +64,7 @@ body{
   position:absolute;
   inset:18px;
   border-radius:50%;
-  background:linear-gradient(180deg,#060b1f,#0b1433);
+  background:linear-gradient(180deg,#120616,#200d18);
 }
 .circle span{
   position:relative;
@@ -85,7 +87,7 @@ body{
   gap:10px;
 }
 .stat{
-  background:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.03);
   padding:12px;
   border-radius:14px;
 }
@@ -110,7 +112,7 @@ button{
 }
 .reset{
   background:transparent;
-  border:1px solid rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.12);
   color:var(--muted);
 }
 button:disabled{opacity:.45}
@@ -130,14 +132,17 @@ h1{margin:0;font-size:22px}
   align-items:center;
   padding:14px;
   border-radius:16px;
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.02);
 }
 .tag{
   padding:6px 12px;
   border-radius:999px;
-  background:rgba(139,92,246,.2);
-  color:#c4b5fd;
+  /* tag uses a soft version of the primary */
+  background:rgba(255,107,107,0.12);
+  color:var(--primary);
   font-size:12px;
+  font-weight:700;
 }
 
 @media(max-width:900px){
@@ -244,7 +249,9 @@ $('doneBtn').onclick=()=>{
 
 $('resetBtn').onclick=()=>{
   if(confirm('Reset all progress?')){
-    localStorage.clear();
+    localStorage.removeItem(K_DAY);
+    localStorage.removeItem(K_LAST);
+    localStorage.removeItem(K_DONE);
     render();
   }
 };
