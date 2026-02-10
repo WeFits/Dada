@@ -3,22 +3,84 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chest — Daily (minimal)</title>
+  <title>Chest Daily</title>
   <style>
-    /* very similar to your example */
-    body{font-family:system-ui,Arial;margin:28px;background:#071428;color:#eaf2ff}
-    .card{background:#091833;padding:18px;border-radius:12px;max-width:520px}
-    h2{margin:0 0 10px 0}
-    .row{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
-    .small{color:#9fb0d6;font-size:13px}
-    button{padding:10px 14px;border-radius:8px;border:none;background:#2b6df6;color:white;font-weight:700;cursor:pointer}
-    button:disabled{opacity:.45;cursor:not-allowed}
-    .reset{background:transparent;border:1px solid #2b6df6;color:#2b6df6;padding:9px 12px}
-    .list{margin-top:12px;border-top:1px solid rgba(255,255,255,0.03);padding-top:10px}
-    .ex{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
-    .ex .name{font-weight:700}
-    .ex .qty{color:#cfe0ff;font-weight:800}
-    .muted{color:#9fb0d6;font-size:13px}
+    /* clean white design */
+    body{
+      font-family:system-ui,Arial;
+      margin:28px;
+      background:#ffffff;
+      color:#000000;
+    }
+    .card{
+      background:#f8faff;
+      padding:18px;
+      border-radius:12px;
+      max-width:520px;
+      border:1px solid #e3e9ff;
+    }
+    h2{
+      margin:0 0 10px 0;
+      color:#2563eb; /* blue title */
+    }
+    .row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin:8px 0;
+    }
+    .small{
+      font-size:13px;
+      color:#000000;
+    }
+    .label{
+      color:#2563eb; /* blue section labels */
+      font-weight:600;
+      font-size:13px;
+    }
+    button{
+      padding:10px 14px;
+      border-radius:8px;
+      border:none;
+      background:#2563eb;
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+    .reset{
+      background:transparent;
+      border:1px solid #2563eb;
+      color:#2563eb;
+      padding:9px 12px;
+    }
+    .list{
+      margin-top:12px;
+      border-top:1px solid #e5e7eb;
+      padding-top:10px;
+    }
+    .ex{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:8px 0;
+      border-bottom:1px dashed #e5e7eb;
+    }
+    .ex .name{
+      font-weight:600;
+      color:#000000;
+    }
+    .ex .qty{
+      font-weight:700;
+      color:#2563eb;
+    }
+    .muted{
+      font-size:13px;
+      color:#444444;
+    }
   </style>
 </head>
 <body>
@@ -26,23 +88,21 @@
     <h2 id="dayText">Day 1 / 360</h2>
 
     <div class="row">
-      <div class="small">Muscle</div>
+      <div class="label">Muscle</div>
       <div class="small">Chest</div>
     </div>
 
     <div class="row">
-      <div class="small">Difficulty</div>
+      <div class="label">Difficulty</div>
       <div id="diffText" class="small">1</div>
     </div>
 
     <div class="row">
-      <div class="small">Next unlock</div>
+      <div class="label">Next unlock</div>
       <div id="timerText" class="small">Ready</div>
     </div>
 
-    <div class="list" id="trainingList">
-      <!-- chest exercises show here -->
-    </div>
+    <div class="list" id="trainingList"></div>
 
     <div style="margin-top:12px;display:flex;gap:8px">
       <button id="doneBtn">Selesai Hari Ini</button>
@@ -56,22 +116,21 @@
   var WAIT_SECONDS = 12 * 3600;
   var KEY = 'chest_daily_v1';
 
-  // chest exercises [name, unit, baseQty]
+  // chest exercises
   var CHEST = [
     ['Push-ups','reps',12],
     ['Incline push-ups','reps',10],
     ['Decline push-ups','reps',8],
-    ['Chest dips (assisted)','reps',8],
-    ['Isometric chest squeeze','secs',20]
+    ['Chest dips','reps',8],
+    ['Chest squeeze','secs',20]
   ];
 
-  // data object
   var data = loadData();
 
   function loadData(){
     var raw = localStorage.getItem(KEY);
     if(!raw) return { day:1, deadline:0 };
-    try{ return JSON.parse(raw); } catch(e){ return { day:1, deadline:0 }; }
+    try{ return JSON.parse(raw); }catch(e){ return { day:1, deadline:0 }; }
   }
 
   function saveData(){
@@ -80,7 +139,7 @@
 
   function completeToday(){
     var now = Math.floor(Date.now()/1000);
-    if(now < data.deadline) return; // still locked
+    if(now < data.deadline) return;
     data.deadline = now + WAIT_SECONDS;
     data.day = Math.min(data.day + 1, MAX_DAYS);
     saveData();
@@ -93,9 +152,7 @@
 
   function computeQty(base, day){
     var lvl = getDifficulty(day);
-    var mul = 1 + (lvl - 1) * 0.02; // 2% per level
-    var wave = 1 + Math.sin(day/8) * 0.03;
-    var q = Math.round(base * mul * wave);
+    var q = Math.round(base * (1 + (lvl - 1) * 0.02));
     if(q < 1) q = 1;
     return q;
   }
@@ -111,37 +168,38 @@
     var now = Math.floor(Date.now()/1000);
     var rem = Math.max(0, data.deadline - now);
 
-    var dayLabel = (data.day >= MAX_DAYS) ? ("Day " + MAX_DAYS + " — Finished") : ("Day " + data.day + " / " + MAX_DAYS);
-    document.getElementById('dayText').textContent = dayLabel;
-    document.getElementById('diffText').textContent = getDifficulty(data.day);
-    document.getElementById('timerText').textContent = rem > 0 ? formatTime(rem) : (data.day >= MAX_DAYS ? 'Done' : 'Ready');
-    document.getElementById('doneBtn').disabled = (rem > 0) || (data.day >= MAX_DAYS);
+    document.getElementById('dayText').textContent =
+      data.day >= MAX_DAYS ? "Day 360 — Finished" : "Day " + data.day + " / 360";
 
-    // render chest training
+    document.getElementById('diffText').textContent = getDifficulty(data.day);
+    document.getElementById('timerText').textContent =
+      rem > 0 ? formatTime(rem) : (data.day >= MAX_DAYS ? 'Done' : 'Ready');
+
+    document.getElementById('doneBtn').disabled =
+      rem > 0 || data.day >= MAX_DAYS;
+
     var cont = document.getElementById('trainingList');
     cont.innerHTML = '';
     for(var i=0;i<CHEST.length;i++){
-      var item = CHEST[i];
-      var q = computeQty(item[2], data.day);
-      var el = document.createElement('div');
-      el.className = 'ex';
-      el.innerHTML = '<div><div class="name">' + item[0] + '</div><div class="muted">scaled by difficulty</div></div>'
-                   + '<div class="qty">' + q + ' ' + item[1] + '</div>';
-      cont.appendChild(el);
+      var e = CHEST[i];
+      var q = computeQty(e[2], data.day);
+      var div = document.createElement('div');
+      div.className = 'ex';
+      div.innerHTML =
+        '<div><div class="name">'+e[0]+'</div><div class="muted">Chest</div></div>' +
+        '<div class="qty">'+q+' '+e[1]+'</div>';
+      cont.appendChild(div);
     }
   }
 
-  // wire buttons
-  document.getElementById('doneBtn').addEventListener('click', function(){
-    completeToday();
-  });
-  document.getElementById('resetBtn').addEventListener('click', function(){
+  document.getElementById('doneBtn').onclick = completeToday;
+  document.getElementById('resetBtn').onclick = function(){
     if(confirm('Reset progress?')){
       data = { day:1, deadline:0 };
       saveData();
       updateUI();
     }
-  });
+  };
 
   setInterval(updateUI, 1000);
   updateUI();
