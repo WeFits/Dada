@@ -1,219 +1,256 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Program Dada 360 Hari</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>360-Day Progressive Challenge</title>
+
 <style>
-  :root{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;}
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#eef6ff,#ffffff);}
-  .card{width:92%;max-width:540px;background:#fff;border-radius:14px;padding:20px;box-shadow:0 12px 36px rgba(10,30,80,0.08);text-align:center}
-  h1{margin:0 0 8px;color:#1565c0;font-size:20px}
-  .meta{color:#1565c0;font-weight:700;margin-bottom:10px}
-  #exercise{margin-top:6px}
-  .btn{background:#1976d2;color:#fff;border:0;padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;margin-top:12px}
-  .btn.secondary{background:#eef2ff;color:#0b3b8a;margin-left:8px;padding:8px 12px}
-  .muted{color:#555;font-size:0.92rem;margin-top:10px}
-  .small{font-size:0.85rem;color:#666}
+:root{
+  --bg1:#050814;
+  --bg2:#0b1630;
+  --card:#0e1b3a;
+  --primary:#8b5cf6;
+  --secondary:#22d3ee;
+  --good:#34d399;
+  --text:#e5edff;
+  --muted:#9aa4c7;
+}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:system-ui,Segoe UI,Roboto,Arial;
+  background:radial-gradient(1200px 600px at top,var(--bg2),var(--bg1));
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.app{
+  width:100%;
+  max-width:1050px;
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:24px;
+}
+
+.card{
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* LEFT */
+.circle{
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  margin:auto;
+  background:conic-gradient(var(--primary) var(--deg), rgba(255,255,255,.08) 0deg);
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+.circle::after{
+  content:"";
+  position:absolute;
+  inset:18px;
+  border-radius:50%;
+  background:linear-gradient(180deg,#060b1f,#0b1433);
+}
+.circle span{
+  position:relative;
+  z-index:1;
+  text-align:center;
+}
+.circle .day{
+  font-size:22px;
+  font-weight:800;
+}
+.circle .small{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.stats{
+  margin-top:16px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.stat{
+  background:rgba(255,255,255,.05);
+  padding:12px;
+  border-radius:14px;
+}
+.stat b{font-size:18px}
+
+.actions{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+}
+button{
+  flex:1;
+  padding:12px;
+  border-radius:14px;
+  border:none;
+  font-weight:800;
+  cursor:pointer;
+}
+.done{
+  background:linear-gradient(90deg,var(--good),var(--secondary));
+  color:#042;
+}
+.reset{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.15);
+  color:var(--muted);
+}
+button:disabled{opacity:.45}
+
+/* RIGHT */
+h1{margin:0;font-size:22px}
+.subtitle{color:var(--muted);font-size:14px}
+
+.list{
+  margin-top:14px;
+  display:grid;
+  gap:12px;
+}
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+}
+.tag{
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(139,92,246,.2);
+  color:#c4b5fd;
+  font-size:12px;
+}
+
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
-  <div class="card" role="region" aria-label="Program Dada 360 Hari">
-    <h1>Program Dada 360 Hari</h1>
-    <div class="meta" id="progress">Hari 1 • Bulan 1</div>
+<div class="app">
 
-    <div id="exercise">
-      <h3 id="title">Hari 1: Push Up</h3>
-      <p id="detail">3 set × 10 repetisi</p>
-      <p class="small" id="note">Fokus pada teknik.</p>
+  <div class="card">
+    <div class="circle" id="circle" style="--deg:0deg">
+      <span>
+        <div class="day" id="dayText">Day 1</div>
+        <div class="small">of 360</div>
+      </span>
     </div>
 
-    <div>
-      <button class="btn" id="doneBtn">Selesai Hari Ini</button>
-      <button class="btn secondary" id="resetBtn">Reset Progress</button>
+    <div class="stats">
+      <div class="stat">Difficulty<br><b id="diff">1</b></div>
+      <div class="stat">Multiplier<br><b id="mult">x1.00</b></div>
+      <div class="stat">Completed<br><b id="doneCount">0</b></div>
+      <div class="stat">Next unlock<br><b id="unlock">Now</b></div>
     </div>
 
-    <div class="muted" id="message">Cooldown: siap</div>
-    <div class="muted small" style="margin-top:6px">Cooldown default: 14 jam · Simpanan lokal (browser)</div>
+    <div class="actions">
+      <button class="done" id="doneBtn">Finish Today</button>
+      <button class="reset" id="resetBtn">Reset</button>
+    </div>
   </div>
 
-<script>
-/* ========== KONFIG ========== */
-const STORAGE_KEY = 'chest_360_v1';
-const COOLDOWN_HOURS = 14;
-const TOTAL_DAYS = 360;
+  <div class="card">
+    <h1>Today’s Training</h1>
+    <div class="subtitle">
+      Every <b>3 days</b> the difficulty increases — slow & realistic
+    </div>
+    <div class="list" id="list"></div>
+  </div>
 
-/* ========== HELPERS & PROGRAM GENERATOR ========== */
-/*
-Strategy:
-- Program dibagi ke dalam 12 fase ~ 30 hari / fase (bulan).
-- Intensitas naik tiap fase (volume + variasi).
-- Set/reps dihitung dari hari sehingga naik perlahan.
-- Variasi gerakan berganti untuk menstimulasi otot.
-*/
-const VARIATIONS = [
-  {id:'pushup', label:'Push Up'},
-  {id:'wide', label:'Wide Push Up'},
-  {id:'incline', label:'Incline Push Up'},
-  {id:'diamond', label:'Diamond Push Up'},
-  {id:'benchdip', label:'Bench Dip'},
-  {id:'explosive', label:'Explosive Push Up'},
-  {id:'hold', label:'Push Up Hold 3s'}
+</div>
+
+<script>
+const TOTAL=360;
+const STEP=3;
+const WAIT=12*3600*1000;
+
+const EXERCISES=[
+  ['Push-ups','reps',12],
+  ['Squats','reps',18],
+  ['Plank','sec',30],
+  ['Lunges','reps',12]
 ];
 
-function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+const K_DAY='day360';
+const K_LAST='last360';
+const K_DONE='done360';
 
-/**
- * generatePlan(day)
- * - day: 1..360
- * returns {name, sets, reps, extraNote}
- */
-function generatePlan(day){
-  const phase = Math.ceil(day / 30);            // 1..12
-  const phaseIntensity = 1 + (phase - 1) * 0.06; // bertambah ~6% per fase
-  // base sets increase sedikit setiap 60 hari
-  const baseSets = 3 + Math.floor((day - 1) / 60);
-  // base reps target naik perlahan
-  const baseReps = 8 + Math.floor(day * 0.15); // hari 1 -> ~8, hari 360 -> ~62 (dikontrol nanti)
-  // pilih variasi bergantung pada hari dan fase
-  let varIdx = (day - 1) % VARIATIONS.length;
-  // tambahkan variasi tingkat lanjut pada fase lanjut
-  if(phase >= 6) varIdx = (varIdx + 1) % VARIATIONS.length;
-  if(phase >= 9) varIdx = (varIdx + 2) % VARIATIONS.length;
-  const variation = VARIATIONS[varIdx];
+const $=id=>document.getElementById(id);
+const get=(k,d)=>localStorage.getItem(k)?+localStorage.getItem(k):d;
+const set=(k,v)=>localStorage.setItem(k,v);
 
-  // compute reps & sets with intensity factor, cap values
-  let reps = Math.round(baseReps * phaseIntensity);
-  reps = clamp(reps, 5, 80);
-  let sets = Math.round(baseSets * (1 + Math.floor((phase-1)/3)*0.2)); // naik tiap 3 fase sedikit
-  sets = clamp(sets, 3, 8);
-
-  // special adjustments for certain variations
-  let extraNote = '';
-  if(variation.id === 'explosive'){
-    // explosive: sedikit reps, lebih set
-    reps = clamp(Math.round(reps * 0.6), 5, 20);
-    sets = clamp(sets + 1, 3, 10);
-    extraNote = 'Fokus ledakan, istirahat 60-90s';
-  } else if(variation.id === 'hold'){
-    // hold: reps = seconds (~3s hold * reps)
-    reps = clamp(Math.round(reps * 0.6), 6, 40);
-    extraNote = 'Tahan 2–4 detik per repetisi';
-  } else if(variation.id === 'diamond'){
-    reps = clamp(Math.round(reps * 0.8), 6, 60);
-    extraNote = 'Tekanan pada bagian tengah dada & trisep';
-  } else if(variation.id === 'incline'){
-    extraNote = 'Fokus bagian atas dada';
-  } else if(variation.id === 'benchdip'){
-    extraNote = 'Kerjakan dengan form; gunakan kursi stabil';
-  }
-
-  // every 30th day: burnout / final day of phase -> higher volume
-  if(day % 30 === 0){
-    sets = clamp(sets + 2, sets, 10);
-    reps = clamp(Math.round(reps * 1.15), reps, 100);
-    extraNote = (extraNote ? extraNote + ' • ' : '') + 'Hari fase: burnout';
-  }
-
-  // recommend light weight option starting phase 7
-  const allowWeighted = (phase >= 7);
-  if(allowWeighted) extraNote = (extraNote ? extraNote + ' • ' : '') + 'Opsional: beban ringan (tas ransel)';
-
-  return {
-    name: variation.label,
-    sets,
-    reps,
-    extraNote,
-    phase
-  };
-}
-
-/* ========== STORAGE ========== */
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-if(!state || typeof state.day !== 'number'){
-  state = { day: 1, streak: 0, lastDone: 0, lockedUntil: 0 };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-
-/* ========== UI ========== */
-const progressEl = document.getElementById('progress');
-const titleEl = document.getElementById('title');
-const detailEl = document.getElementById('detail');
-const noteEl = document.getElementById('note');
-const msgEl = document.getElementById('message');
-const doneBtn = document.getElementById('doneBtn');
-const resetBtn = document.getElementById('resetBtn');
+const level=d=>1+Math.floor((d-1)/STEP);
+const mult=l=>1+(l-1)*0.02;
 
 function render(){
-  const now = Date.now();
-  // clamp day
-  if(state.day < 1) state.day = 1;
-  if(state.day > TOTAL_DAYS) state.day = TOTAL_DAYS;
+  const day=get(K_DAY,1);
+  const last=get(K_LAST,0);
+  const done=get(K_DONE,0);
 
-  const day = state.day;
-  const month = Math.ceil(day / 30); // bulan 1..12
-  progressEl.innerText = `Hari ${day} • Bulan ${month} / 12`;
+  const lvl=level(day);
+  const m=mult(lvl);
 
-  // check finished
-  if(day >= TOTAL_DAYS){
-    const plan = generatePlan(day);
-    titleEl.innerText = `Hari ${day}: ${plan.name}`;
-    detailEl.innerText = `${plan.sets} set × ${plan.reps} repetisi`;
-    noteEl.innerText = `PROGRAM 360 HARI SELESAI — Selamat!`;
-    doneBtn.style.display = 'none';
-    msgEl.innerText = 'Jika mau ulang, tekan Reset Progress';
-    return;
-  }
+  $('dayText').textContent=`Day ${day}`;
+  $('diff').textContent=lvl;
+  $('mult').textContent='x'+m.toFixed(2);
+  $('doneCount').textContent=done;
 
-  // cooldown handling
-  if(now < state.lockedUntil){
-    doneBtn.style.display = 'none';
-    const leftMs = state.lockedUntil - now;
-    const h = Math.floor(leftMs / 3600000);
-    const m = Math.floor((leftMs % 3600000) / 60000);
-    titleEl.innerText = `Tunggu ${h} jam ${m} menit`;
-    detailEl.innerText = '';
-    noteEl.innerText = 'Cooldown aktif';
-    msgEl.innerText = 'Selesaikan latihan ketika cooldown selesai';
-    return;
-  }
+  $('circle').style.setProperty('--deg',((day-1)/TOTAL)*360+'deg');
 
-  // normal day
-  const plan = generatePlan(day);
-  titleEl.innerText = `Hari ${day}: ${plan.name}`;
-  detailEl.innerText = `${plan.sets} set × ${plan.reps} repetisi`;
-  noteEl.innerText = plan.extraNote || 'Fokus teknik & gerakan terkontrol';
-  doneBtn.style.display = 'inline-block';
-  msgEl.innerText = 'Selesaikan latihan hari ini untuk lanjut besok';
+  const rem=last+WAIT-Date.now();
+  $('unlock').textContent=rem>0?Math.ceil(rem/3600000)+'h':'Now';
+  $('doneBtn').disabled=rem>0||day>TOTAL;
+
+  const list=$('list');
+  list.innerHTML='';
+  EXERCISES.forEach(e=>{
+    const q=Math.round(e[2]*m*(1+Math.sin(day)/20));
+    const el=document.createElement('div');
+    el.className='item';
+    el.innerHTML=`<div><b>${e[0]}</b></div><div class="tag">${q} ${e[1]}</div>`;
+    list.appendChild(el);
+  });
 }
 
-/* ========== ACTIONS ========== */
-doneBtn.addEventListener('click', ()=>{
-  const now = Date.now();
-  // streak logic: if lastDone within 2 * COOLDOWN window, increment streak
-  if(state.lastDone && (now - state.lastDone) <= (COOLDOWN_HOURS * 2 * 3600000)){
-    state.streak = (state.streak || 0) + 1;
-  } else {
-    state.streak = 1;
+$('doneBtn').onclick=()=>{
+  const d=get(K_DAY,1);
+  if(d>TOTAL) return;
+  set(K_DAY,d+1);
+  set(K_LAST,Date.now());
+  set(K_DONE,get(K_DONE,0)+1);
+  render();
+};
+
+$('resetBtn').onclick=()=>{
+  if(confirm('Reset all progress?')){
+    localStorage.clear();
+    render();
   }
-  state.lastDone = now;
-  state.lockedUntil = now + COOLDOWN_HOURS * 3600000;
-  state.day = Math.min(state.day + 1, TOTAL_DAYS);
-  saveState();
-  render();
-});
+};
 
-resetBtn.addEventListener('click', ()=>{
-  if(!confirm('Reset semua progress ke Hari 1?')) return;
-  state = { day: 1, streak: 0, lastDone: 0, lockedUntil: 0 };
-  saveState();
-  render();
-});
-
-/* ========== INIT ========== */
 render();
-setInterval(render, 1000);
+setInterval(render,60000);
 </script>
 </body>
 </html>
