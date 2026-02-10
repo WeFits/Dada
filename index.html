@@ -1,263 +1,150 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>360-Day Progressive Challenge — Warm Theme</title>
-
-<style>
-:root{
-  /* → change these to try other palettes quickly */
-  --bg1:#0b0710;       /* deep charcoal */
-  --bg2:#2b1014;       /* deep maroon */
-  --card:#1a1120;
-  --primary:#ff6b6b;   /* coral (main accent) */
-  --secondary:#ffb86b; /* peach (accent) */
-  --good:#34d399;      /* success/positive */
-  --text:#f3eef6;
-  --muted:#cfc7d6;
-}
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:system-ui,Segoe UI,Roboto,Inter,Arial;
-  background:radial-gradient(1200px 600px at top,var(--bg2),var(--bg1));
-  color:var(--text);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-}
-
-.app{
-  width:100%;
-  max-width:1050px;
-  display:grid;
-  grid-template-columns:420px 1fr;
-  gap:24px;
-}
-
-.card{
-  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 20px 50px rgba(0,0,0,.55);
-  border:1px solid rgba(255,255,255,.04);
-}
-
-/* LEFT */
-.circle{
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  margin:auto;
-  /* conic uses the warm accents now */
-  background:conic-gradient(var(--primary) var(--deg), rgba(255,255,255,.06) 0deg);
-  display:grid;
-  place-items:center;
-  position:relative;
-}
-.circle::after{
-  content:"";
-  position:absolute;
-  inset:18px;
-  border-radius:50%;
-  background:linear-gradient(180deg,#120616,#200d18);
-}
-.circle span{
-  position:relative;
-  z-index:1;
-  text-align:center;
-}
-.circle .day{
-  font-size:22px;
-  font-weight:800;
-}
-.circle .small{
-  font-size:13px;
-  color:var(--muted);
-}
-
-.stats{
-  margin-top:16px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.stat{
-  background:rgba(255,255,255,.03);
-  padding:12px;
-  border-radius:14px;
-}
-.stat b{font-size:18px}
-
-.actions{
-  margin-top:14px;
-  display:flex;
-  gap:10px;
-}
-button{
-  flex:1;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  font-weight:800;
-  cursor:pointer;
-}
-.done{
-  background:linear-gradient(90deg,var(--good),var(--secondary));
-  color:#042;
-}
-.reset{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.12);
-  color:var(--muted);
-}
-button:disabled{opacity:.45}
-
-/* RIGHT */
-h1{margin:0;font-size:22px}
-.subtitle{color:var(--muted);font-size:14px}
-
-.list{
-  margin-top:14px;
-  display:grid;
-  gap:12px;
-}
-.item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px;
-  border-radius:16px;
-  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
-  border:1px solid rgba(255,255,255,.02);
-}
-.tag{
-  padding:6px 12px;
-  border-radius:999px;
-  /* tag uses a soft version of the primary */
-  background:rgba(255,107,107,0.12);
-  color:var(--primary);
-  font-size:12px;
-  font-weight:700;
-}
-
-@media(max-width:900px){
-  .app{grid-template-columns:1fr}
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chest — Daily (minimal)</title>
+  <style>
+    /* very similar to your example */
+    body{font-family:system-ui,Arial;margin:28px;background:#071428;color:#eaf2ff}
+    .card{background:#091833;padding:18px;border-radius:12px;max-width:520px}
+    h2{margin:0 0 10px 0}
+    .row{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
+    .small{color:#9fb0d6;font-size:13px}
+    button{padding:10px 14px;border-radius:8px;border:none;background:#2b6df6;color:white;font-weight:700;cursor:pointer}
+    button:disabled{opacity:.45;cursor:not-allowed}
+    .reset{background:transparent;border:1px solid #2b6df6;color:#2b6df6;padding:9px 12px}
+    .list{margin-top:12px;border-top:1px solid rgba(255,255,255,0.03);padding-top:10px}
+    .ex{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+    .ex .name{font-weight:700}
+    .ex .qty{color:#cfe0ff;font-weight:800}
+    .muted{color:#9fb0d6;font-size:13px}
+  </style>
 </head>
-
 <body>
-<div class="app">
-
   <div class="card">
-    <div class="circle" id="circle" style="--deg:0deg">
-      <span>
-        <div class="day" id="dayText">Day 1</div>
-        <div class="small">of 360</div>
-      </span>
+    <h2 id="dayText">Day 1 / 360</h2>
+
+    <div class="row">
+      <div class="small">Muscle</div>
+      <div class="small">Chest</div>
     </div>
 
-    <div class="stats">
-      <div class="stat">Difficulty<br><b id="diff">1</b></div>
-      <div class="stat">Multiplier<br><b id="mult">x1.00</b></div>
-      <div class="stat">Completed<br><b id="doneCount">0</b></div>
-      <div class="stat">Next unlock<br><b id="unlock">Now</b></div>
+    <div class="row">
+      <div class="small">Difficulty</div>
+      <div id="diffText" class="small">1</div>
     </div>
 
-    <div class="actions">
-      <button class="done" id="doneBtn">Finish Today</button>
-      <button class="reset" id="resetBtn">Reset</button>
+    <div class="row">
+      <div class="small">Next unlock</div>
+      <div id="timerText" class="small">Ready</div>
+    </div>
+
+    <div class="list" id="trainingList">
+      <!-- chest exercises show here -->
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button id="doneBtn">Selesai Hari Ini</button>
+      <button id="resetBtn" class="reset">Reset</button>
     </div>
   </div>
-
-  <div class="card">
-    <h1>Today’s Training</h1>
-    <div class="subtitle">
-      Every <b>3 days</b> the difficulty increases — slow & realistic
-    </div>
-    <div class="list" id="list"></div>
-  </div>
-
-</div>
 
 <script>
-const TOTAL=360;
-const STEP=3;
-const WAIT=12*3600*1000;
+  // minimal variables
+  var MAX_DAYS = 360;
+  var WAIT_SECONDS = 12 * 3600;
+  var KEY = 'chest_daily_v1';
 
-const EXERCISES=[
-  ['Push-ups','reps',12],
-  ['Squats','reps',18],
-  ['Plank','sec',30],
-  ['Lunges','reps',12]
-];
+  // chest exercises [name, unit, baseQty]
+  var CHEST = [
+    ['Push-ups','reps',12],
+    ['Incline push-ups','reps',10],
+    ['Decline push-ups','reps',8],
+    ['Chest dips (assisted)','reps',8],
+    ['Isometric chest squeeze','secs',20]
+  ];
 
-const K_DAY='day360';
-const K_LAST='last360';
-const K_DONE='done360';
+  // data object
+  var data = loadData();
 
-const $=id=>document.getElementById(id);
-const get=(k,d)=>localStorage.getItem(k)?+localStorage.getItem(k):d;
-const set=(k,v)=>localStorage.setItem(k,v);
-
-const level=d=>1+Math.floor((d-1)/STEP);
-const mult=l=>1+(l-1)*0.02;
-
-function render(){
-  const day=get(K_DAY,1);
-  const last=get(K_LAST,0);
-  const done=get(K_DONE,0);
-
-  const lvl=level(day);
-  const m=mult(lvl);
-
-  $('dayText').textContent=`Day ${day}`;
-  $('diff').textContent=lvl;
-  $('mult').textContent='x'+m.toFixed(2);
-  $('doneCount').textContent=done;
-
-  $('circle').style.setProperty('--deg',((day-1)/TOTAL)*360+'deg');
-
-  const rem=last+WAIT-Date.now();
-  $('unlock').textContent=rem>0?Math.ceil(rem/3600000)+'h':'Now';
-  $('doneBtn').disabled=rem>0||day>TOTAL;
-
-  const list=$('list');
-  list.innerHTML='';
-  EXERCISES.forEach(e=>{
-    const q=Math.round(e[2]*m*(1+Math.sin(day)/20));
-    const el=document.createElement('div');
-    el.className='item';
-    el.innerHTML=`<div><b>${e[0]}</b></div><div class="tag">${q} ${e[1]}</div>`;
-    list.appendChild(el);
-  });
-}
-
-$('doneBtn').onclick=()=>{
-  const d=get(K_DAY,1);
-  if(d>TOTAL) return;
-  set(K_DAY,d+1);
-  set(K_LAST,Date.now());
-  set(K_DONE,get(K_DONE,0)+1);
-  render();
-};
-
-$('resetBtn').onclick=()=>{
-  if(confirm('Reset all progress?')){
-    localStorage.removeItem(K_DAY);
-    localStorage.removeItem(K_LAST);
-    localStorage.removeItem(K_DONE);
-    render();
+  function loadData(){
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return { day:1, deadline:0 };
+    try{ return JSON.parse(raw); } catch(e){ return { day:1, deadline:0 }; }
   }
-};
 
-render();
-setInterval(render,60000);
+  function saveData(){
+    localStorage.setItem(KEY, JSON.stringify(data));
+  }
+
+  function completeToday(){
+    var now = Math.floor(Date.now()/1000);
+    if(now < data.deadline) return; // still locked
+    data.deadline = now + WAIT_SECONDS;
+    data.day = Math.min(data.day + 1, MAX_DAYS);
+    saveData();
+    updateUI();
+  }
+
+  function getDifficulty(d){
+    return Math.floor((d - 1) / 3) + 1;
+  }
+
+  function computeQty(base, day){
+    var lvl = getDifficulty(day);
+    var mul = 1 + (lvl - 1) * 0.02; // 2% per level
+    var wave = 1 + Math.sin(day/8) * 0.03;
+    var q = Math.round(base * mul * wave);
+    if(q < 1) q = 1;
+    return q;
+  }
+
+  function formatTime(sec){
+    var h = Math.floor(sec/3600);
+    var m = Math.floor((sec%3600)/60);
+    var s = sec % 60;
+    return h + "j " + m + "m " + s + "d";
+  }
+
+  function updateUI(){
+    var now = Math.floor(Date.now()/1000);
+    var rem = Math.max(0, data.deadline - now);
+
+    var dayLabel = (data.day >= MAX_DAYS) ? ("Day " + MAX_DAYS + " — Finished") : ("Day " + data.day + " / " + MAX_DAYS);
+    document.getElementById('dayText').textContent = dayLabel;
+    document.getElementById('diffText').textContent = getDifficulty(data.day);
+    document.getElementById('timerText').textContent = rem > 0 ? formatTime(rem) : (data.day >= MAX_DAYS ? 'Done' : 'Ready');
+    document.getElementById('doneBtn').disabled = (rem > 0) || (data.day >= MAX_DAYS);
+
+    // render chest training
+    var cont = document.getElementById('trainingList');
+    cont.innerHTML = '';
+    for(var i=0;i<CHEST.length;i++){
+      var item = CHEST[i];
+      var q = computeQty(item[2], data.day);
+      var el = document.createElement('div');
+      el.className = 'ex';
+      el.innerHTML = '<div><div class="name">' + item[0] + '</div><div class="muted">scaled by difficulty</div></div>'
+                   + '<div class="qty">' + q + ' ' + item[1] + '</div>';
+      cont.appendChild(el);
+    }
+  }
+
+  // wire buttons
+  document.getElementById('doneBtn').addEventListener('click', function(){
+    completeToday();
+  });
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if(confirm('Reset progress?')){
+      data = { day:1, deadline:0 };
+      saveData();
+      updateUI();
+    }
+  });
+
+  setInterval(updateUI, 1000);
+  updateUI();
 </script>
 </body>
 </html>
